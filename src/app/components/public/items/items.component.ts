@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemsService } from 'src/app/services/items.service';
+import { StateStoreService } from 'src/app/services/state-store.service';
 
 @Component({
   selector: 'app-items',
@@ -7,9 +8,10 @@ import { ItemsService } from 'src/app/services/items.service';
   styleUrls: ['./items.component.scss']
 })
 export class ItemsComponent implements OnInit {
-  items:any = [];
-  
-  constructor(private itemsService: ItemsService) { }
+  constructor(
+    private itemsService: ItemsService,
+    public stateStore: StateStoreService
+  ) { }
 
   ngOnInit(): void {
     this.getItems();
@@ -17,7 +19,7 @@ export class ItemsComponent implements OnInit {
 
   getItems(): void {
     this.itemsService.getItems().subscribe(items => {
-      this.items = items;
+      this.stateStore.items = items;
     });
   }
 }

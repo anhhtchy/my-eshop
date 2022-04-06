@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Item } from 'src/app/models/item';
 import { ItemsService } from '../../../services/items.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { ItemsService } from '../../../services/items.service';
 })
 export class ItemDetailComponent implements OnInit {
 
-  item = {id: 0, name: '', price: 0, category: '', description: ''};
+  item:Item = {id: 0, name: '', price: 0, category: '', description: ''};
 
   constructor(
     private route: ActivatedRoute,

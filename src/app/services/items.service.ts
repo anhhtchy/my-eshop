@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { Item } from '../models/item';
 
 const mock_items = [
   {id: 1, name: 'Adidas Stan Smith', price: 90.0, category: 'Shoes', description: ''},
@@ -15,11 +16,11 @@ export class ItemsService {
 
   constructor() { }
 
-  getItems(): Observable<any> {
+  getItems(): Observable<Item[]> {
     return of(mock_items);
   }
 
-  getItem(id:number): Observable<any> {
+  getItem(id:number): Observable<Item> {
     return of(mock_items[id-1]);
   }
 }
