@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ItemsService } from '../items.service';
+import { ItemsService } from '../../services/items.service';
 
 @Component({
   selector: 'app-item-detail',

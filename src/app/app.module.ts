@@ -4,8 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ItemsComponent } from './items/items.component';
-import { ItemDetailComponent } from './item-detail/item-detail.component';
+import { ItemDetailComponent } from './components/item-detail/item-detail.component';
+import { ItemsComponent } from './components/items/items.component';
 
 @NgModule({
   declarations: [
