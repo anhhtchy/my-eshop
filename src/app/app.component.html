@@ -1,3 +1,6 @@
 <div class="container">
+  <div *ngIf="itemsState.cart.cartItems.length > 0" align="right">
+    <a routerLink="cart">Cart</a>
+  </div>
   <router-outlet></router-outlet>
 </div>

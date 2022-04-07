@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ItemsStateService } from './services/items-state.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'my-eshop-fe';
+
+  constructor(public itemsState: ItemsStateService) {}
 }

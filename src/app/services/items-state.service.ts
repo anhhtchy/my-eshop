@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { Cart } from '../models/cart';
 import { Filter } from '../models/filter';
 import { Item } from '../models/item';
 
@@ -24,6 +25,9 @@ export class ItemsStateService {
     name: '', categories: []
   });
   readonly filter$ = this._filter.asObservable();
+
+  private readonly _cart = new BehaviorSubject<Cart>(new Cart());
+  readonly cart$ = this._cart.asObservable();
 
   constructor() { }
 
@@ -57,5 +61,13 @@ export class ItemsStateService {
 
   set filter(val: Filter) {
     this._filter.next(val);
+  }
+
+  get cart(): Cart {
+    return this._cart.getValue();
+  }
+
+  set cart(val: Cart) {
+    this._cart.next(val);
   }
 }

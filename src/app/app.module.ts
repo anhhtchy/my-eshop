@@ -8,13 +8,15 @@ import { ItemDetailComponent } from './components/public/item-detail/item-detail
 import { ItemsComponent } from './components/public/items/items.component';
 import { FormsModule } from '@angular/forms';
 import { FilterComponent } from './components/shared/filter/filter.component';
+import { CartComponent } from './components/public/cart/cart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ItemsComponent,
     ItemDetailComponent,
-    FilterComponent
+    FilterComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,

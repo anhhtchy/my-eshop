@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Item } from 'src/app/models/item';
+import { ItemsStateService } from 'src/app/services/items-state.service';
 import { ItemsService } from '../../../services/items.service';
 
 @Component({
@@ -15,7 +16,8 @@ export class ItemDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private itemsService: ItemsService
+    private itemsService: ItemsService,
+    private itemsState: ItemsStateService
   ) { }
 
   ngOnInit(): void {
@@ -37,7 +39,10 @@ export class ItemDetailComponent implements OnInit {
     });
   }
 
-  addToCart(): void {}
+  addToCart(): void {
+    this.itemsState.cart.addItem({item: this.item, quantity: 1});
+    this.router.navigate(['/cart']);
+  }
 
   navigateWhenError() {
     this.router.navigate(['']);
