@@ -1,6 +1,21 @@
 <p>Products</p>
+
 <div class="row">
-  <div *ngFor="let item of stateStore.items">
+  Page size:
+  <select
+    [(ngModel)]="itemsState.pageSize"
+    (change)="onPageSizeChange()"
+    id="page-size">
+    <option value="3">3</option>
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="50">50</option>
+  </select>
+  <br />
+</div>
+
+<div class="row">
+  <div *ngFor="let item of itemsState.items">
     <div class="card" style="width: 15rem">
       <div class="card-body">
         <h5 class="card-title">
@@ -13,3 +28,10 @@
     </div>
   </div>
 </div>
+
+<ngb-pagination
+  [(page)]="itemsState.page"
+  [pageSize]="itemsState.pageSize"
+  [collectionSize]="itemsState.count"
+  (pageChange)="onPageChange($event)">
+</ngb-pagination>
