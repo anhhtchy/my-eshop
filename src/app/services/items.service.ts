@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { Filter } from '../models/filter';
 import { Item } from '../models/item';
 import { ItemsPayload } from '../models/items-payload';
 
@@ -8,6 +9,11 @@ const mock_items = [
   {id: 2, name: 'Nike Air Max', price: 110.0, category: 'Shoes', description: ''},
   {id: 3, name: 'Reebok Sweat Shirt', price: 45.0, category: 'Clothes', description: ''},
   {id: 4, name: 'Puma T-Shirt', price: 30.0, category: 'Clothes', description: ''},
+  {id: 5, name: 'Under Armour', price: 130.0, category: 'Shoes', description: ''},
+  {id: 6, name: 'Nike Sweat shirt', price: 65.0, category: 'Clothes', description: ''},
+  {id: 7, name: 'Spalding basketball', price: 43.0, category: 'Gear', description: ''},
+  {id: 8, name: 'Dumbbell 5kg', price: 3.50, category: 'Clothes', description: ''},
+  {id: 9, name: 'New Balance', price: 120.0, category: 'Shoes', description: ''},
 ];
 
 @Injectable({
@@ -17,10 +23,15 @@ export class ItemsService {
 
   constructor() { }
 
-  getItems(page:number, pageSize:number): Observable<ItemsPayload> {
+  getItems(page:number, pageSize:number, filter:Filter): Observable<ItemsPayload> {
+    let filteredItems:Item[] = mock_items.filter(item => {
+      return (item.name.indexOf(filter.name)>=0
+        && (filter.categories.length==0 || filter.categories.includes(item.category)));
+    });
+    
     let payload:ItemsPayload = {
-      items: mock_items.slice((page-1)*pageSize, page*pageSize),
-      count: mock_items.length
+      items: filteredItems.slice((page-1)*pageSize, page*pageSize),
+      count: filteredItems.length
     };
     
     return of(payload);
