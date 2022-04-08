@@ -1,43 +1,43 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Filter } from '../models/filter';
 import { Item } from '../models/item';
 import { ItemsPayload } from '../models/items-payload';
-
-const mock_items = [
-  {id: 1, name: 'Adidas Stan Smith', price: 90.0, category: 'Shoes', description: ''},
-  {id: 2, name: 'Nike Air Max', price: 110.0, category: 'Shoes', description: ''},
-  {id: 3, name: 'Reebok Sweat Shirt', price: 45.0, category: 'Clothes', description: ''},
-  {id: 4, name: 'Puma T-Shirt', price: 30.0, category: 'Clothes', description: ''},
-  {id: 5, name: 'Under Armour', price: 130.0, category: 'Shoes', description: ''},
-  {id: 6, name: 'Nike Sweat shirt', price: 65.0, category: 'Clothes', description: ''},
-  {id: 7, name: 'Spalding basketball', price: 43.0, category: 'Gear', description: ''},
-  {id: 8, name: 'Dumbbell 5kg', price: 3.50, category: 'Clothes', description: ''},
-  {id: 9, name: 'New Balance', price: 120.0, category: 'Shoes', description: ''},
-];
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemsService {
-
-  constructor() { }
+  itemsUrl = `${environment.apiUrl}/items`;
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+  constructor(private http: HttpClient) { }
 
   getItems(page:number, pageSize:number, filter:Filter): Observable<ItemsPayload> {
-    let filteredItems:Item[] = mock_items.filter(item => {
-      return (item.name.indexOf(filter.name)>=0
-        && (filter.categories.length==0 || filter.categories.includes(item.category)));
-    });
+    let body = {
+      name: filter.name,
+      categories: filter.categories,
+      page: page,
+      pageSize: pageSize
+    }
     
-    let payload:ItemsPayload = {
-      items: filteredItems.slice((page-1)*pageSize, page*pageSize),
-      count: filteredItems.length
-    };
-    
-    return of(payload);
+    return this.http.post<ItemsPayload>(this.itemsUrl, body, this.httpOptions)
+    .pipe(catchError(this.handleError<ItemsPayload>('getItems', {items:[], count:0} )));
   }
 
-  getItem(id:number): Observable<Item> {
-    return of(mock_items[id-1]);
+  handleError<T>(operation = 'operation', result?: T) {
+    return (error: any) : Observable<T> => {
+      console.error(error);
+      return of(result as T);
+    }
+  }
+
+  getItem(id: number): Observable<Item> {
+    const url = `${this.itemsUrl}/${id}`;
+    return this.http.get<Item>(url)
+              .pipe(catchError(this.handleError<Item>(`getItem/${id}`, {id:0, name:"", price:0, category:"", description:""})));
   }
 }
