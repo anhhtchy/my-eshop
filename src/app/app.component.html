@@ -1,6 +1,13 @@
 <div class="container">
+  <div *ngIf="!user?.id" align="right">
+    <a routerLink="login">Login</a>
+  </div>
   <div *ngIf="itemsState.cart.cartItems.length > 0" align="right">
     <a routerLink="cart">Cart</a>
+  </div>
+  <div *ngIf="user?.id" align="right">
+    User: {{ user?.username }} |
+    <a href="#" (click)="logout($event)">Logout</a>
   </div>
   <router-outlet></router-outlet>
 </div>
